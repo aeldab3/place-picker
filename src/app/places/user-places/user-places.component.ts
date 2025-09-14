@@ -13,9 +13,9 @@ import { PlacesService } from '../places.service';
   imports: [PlacesContainerComponent, PlacesComponent],
 })
 export class UserPlacesComponent implements OnInit {
-  places = signal<Place[] | undefined>(undefined);
+  places = this.PlacesService.loadedUserPlaces;
   isFetching = signal(false);
-  error =signal('');
+  error = signal('');
   private destroyRef = inject(DestroyRef);
 
   constructor(private PlacesService: PlacesService){}
@@ -24,9 +24,6 @@ export class UserPlacesComponent implements OnInit {
     this.isFetching.set(true);
     const subscription = this.PlacesService.loadUserPlaces()
       .subscribe({
-        next: (resData) => {
-          this.places.set(resData);
-        },
         error: (error: Error) => {
           this.error.set(error.message);
         },
