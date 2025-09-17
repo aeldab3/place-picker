@@ -36,4 +36,15 @@ export class UserPlacesComponent implements OnInit {
       subscription.unsubscribe();
     });
   }
+
+  onRemovePlace(place: Place) {
+    const subscription = this.PlacesService.removeUserPlace(place).subscribe({
+      error: (error: Error) => {
+        this.error.set(error.message);
+      }
+    });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 }
